@@ -11,6 +11,7 @@ let key = '4828686cdec96d289c72a57aa2c3727b';
 // }
 
 let days = [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ];
+
 let icons = {
 	'partly-cloudy-day': './img/cloudy-day-3.svg',
 	'partly-cloudy-night': './img/cloudy-night-3.svg',
@@ -42,37 +43,37 @@ if (navigator.geolocation) {
 				return data.json();
 			})
 			.then((data) => {
-				//console.log(data);
-				document.getElementById('date').innerHTML = Date(data.currently.time * 1000).slice(0, 10);
-				document.getElementById('temperature').innerHTML = data.currently.temperature;
-				//document.getElementById('weatherImage').src = './img/cloudy-day-1.svg';
+				let currentDay = new Date(data.currently.time * 1000);
+				document.getElementById('date').innerText = currentDay.toString().slice(0, 10);
+				document.getElementById('temperature').innerText = Math.round(data.currently.temperature);
 
 				let pic = data.currently.icon;
 
-				//Check for time of day to grab day/night icons
-				if (Number(Date(data.currently.time * 1000).slice(16, 18)) < 19) {
-					switch (pic) {
-						case 'partly-cloudy-day':
-							document.getElementById('weatherImage').src = icons['partly-cloudy-day'];
-							break;
-						case 'cloudy':
-							document.getElementById('weatherImage').src = icons['cloudy'];
-							break;
-						case 'rain':
-							document.getElementById('weatherImage').src = icons['rain-day'];
-							break;
-						case 'clear-day':
-							document.getElementById('weatherImage').src = icons['clear-day'];
-							break;
-						case 'fog':
-							document.getElementById('weatherImage').src = icons['fog']; //using cloudy symbol
-							break;
-						case 'snow':
-							document.getElementById('weatherImage').src = icons['snow-day'];
-							break;
-						default:
-							document.getElementById('weatherImage').src = icons['clear-day'];
+				let week = data.daily.data; //array of days + data
+				console.log(week);
+				let offset = days.findIndex((day) => {
+					return day.includes(currentDay.toString().slice(0, 3));
+				});
+				//console.log('offset', offset);
+				for (let i = 0; i < week.length - 1; i++) {
+					let dayW = new Date(week[i].time * 1000);
+					dayW = dayW.toString().slice(0, 3);
+					document.getElementById(`day${i}`).innerText = dayW;
+					for (let j = 0; j < days.length; j++) {
+						if (days[j].includes(dayW)) {
+							document.getElementById(`tempHi${i}`).innerText = `${Math.round(
+								week[i].temperatureHigh
+							)} °F`;
+							document.getElementById(`tempLow${i}`).innerText = `${Math.round(
+								week[i].temperatureLow
+							)} °F`;
+							document.getElementById(`weatherImage${i}`).src = iconSelect(week[i].icon);
+						}
 					}
+				}
+				//Check for time of day to grab day/night icons
+				if (Number(new Date(data.currently.time * 1000).toString().slice(16, 18)) < 19) {
+					document.getElementById('weatherImage').src = iconSelect(pic);
 				} else {
 					switch (pic) {
 						case 'partly-cloudy-night':
@@ -98,22 +99,29 @@ if (navigator.geolocation) {
 					}
 				}
 			});
+
+		function iconSelect(icon) {
+			switch (icon) {
+				case 'partly-cloudy-day':
+					return icons['partly-cloudy-day'];
+				case 'cloudy':
+					return icons['cloudy'];
+
+				case 'rain':
+					return icons['rain-day'];
+
+				case 'clear-day':
+					return icons['clear-day'];
+
+				case 'fog':
+					return icons['fog']; //using cloudy symbol
+
+				case 'snow':
+					return icons['snow-day'];
+
+				default:
+					return icons['clear-day'];
+			}
+		}
 	});
 }
-
-// function click(e) {}
-// const getWeather = () => {
-// 	let proxy = 'https://cors-anywhere.herokuapp.com/';
-// 	var URL = proxy + weatherData;
-
-// 	$.getJSON(URL)
-// 		.done((data) => {
-// 			let temp = data.currently.temperature;
-// 			// <html>
-// 			// 	<h1>The Temperature: {temp}</h1>
-// 			// </html>;
-// 		})
-// 		.fail(function() {
-// 			'Could not retrieve weather data';
-// 		});
-// };
