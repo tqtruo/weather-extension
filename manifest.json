@@ -1,0 +1,20 @@
+{
+	"name": "Weather Extension",
+	"version": "1.0",
+	"manifest_version": 2,
+
+	"description": "This extension will display the current and forecasted weather information for a given city",
+	"icons": {
+		"128": "weather_icon.png"
+	},
+
+	"browser_action": {
+		"default_title": "Display the weather!",
+		"default_icon": { "35": "weather_icon.png" },
+		"default_popup": "popup.html"
+	},
+
+	"options_page": "options.html",
+
+	"permissions": [ "activeTab", "geolocation" ]
+}
