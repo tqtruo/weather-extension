@@ -26,13 +26,19 @@ let icons = {
 	'snow-night': './img/snowy-6.svg'
 };
 
+let unit;
+
+chrome.storage.local.get('units', function(data) {
+	unit = data.units;
+});
+
 let latitude;
 let longitude;
 if (navigator.geolocation) {
 	navigator.geolocation.getCurrentPosition((location) => {
 		latitude = location.coords.latitude.toFixed(5);
 		longitude = location.coords.longitude.toFixed(5);
-		console.log(latitude, longitude); //41.05, -87.648 Fullstack
+		//console.log(latitude, longitude); //41.05, -87.648 Fullstack
 
 		let wData = `https://api.darksky.net/forecast/${key}/${latitude},${longitude}?exclude=minutely,alerts,flags&units=auto`;
 		let proxy = 'https://cors-anywhere.herokuapp.com/';
@@ -50,10 +56,10 @@ if (navigator.geolocation) {
 				let pic = data.currently.icon;
 
 				let week = data.daily.data; //array of days + data
-				console.log(week);
-				let offset = days.findIndex((day) => {
-					return day.includes(currentDay.toString().slice(0, 3));
-				});
+
+				// let offset = days.findIndex((day) => {
+				// 	return day.includes(currentDay.toString().slice(0, 3));
+				// });
 				//console.log('offset', offset);
 				for (let i = 0; i < week.length - 1; i++) {
 					let dayW = new Date(week[i].time * 1000);
@@ -73,7 +79,12 @@ if (navigator.geolocation) {
 				}
 				//Check for time of day to grab day/night icons
 				if (Number(new Date(data.currently.time * 1000).toString().slice(16, 18)) < 19) {
+					if (unit === true) {
+						console.log('the unit', unit);
+						document.getElementById('weatherImage').src = './img/snowy-6.svg';
+					}
 					document.getElementById('weatherImage').src = iconSelect(pic);
+					//document.getElementById('weatherImage').src = './img/snowy-6.svg';
 				} else {
 					switch (pic) {
 						case 'partly-cloudy-night':

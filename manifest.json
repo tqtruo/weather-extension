@@ -19,5 +19,5 @@
 		"open_in_tab": false
 	},
 
-	"permissions": [ "activeTab", "geolocation" ]
+	"permissions": [ "storage", "activeTab", "geolocation" ]
 }

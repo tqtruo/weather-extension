@@ -5,14 +5,14 @@
         <link rel="stylesheet" type="text/css" href="style.css">
         <script src="popup.js"></script>
     </head>
-    <body>
+    <body id="weather-body">
         <!-- <h4>Display the weather!</h4> -->
-        <div class="current">
+        <div id="current">
         <p id="date"></p>
-        <p id="temperature"></p>
+        <div id="temperature"></div>
         <img id="weatherImage"></img>
         <!-- <button id="weatherButton">Weather</button> -->
-        </div>
+    </div>
         <table class="week">
             <tr>
                 <td id="day0"></td>
@@ -31,8 +31,8 @@
                     <td><img id=weatherImage4></td>
                     <td><img id=weatherImage5></td>
                     <td><img id=weatherImage6></td>
-            </tr>
-            <tr>
+                </tr>
+                <tr>
                     <td id="tempHi0"></td>
                     <td id="tempHi1"></td>
                     <td id="tempHi2"></td>
@@ -40,8 +40,8 @@
                     <td id="tempHi4"></td>
                     <td id="tempHi5"></td>
                     <td id="tempHi6"></td>
-            </tr>
-            <tr>
+                </tr>
+                <tr>
                     <td id="tempLow0"></td>
                     <td id="tempLow1"></td>
                     <td id="tempLow2"></td>

@@ -1,20 +1,18 @@
 <!DOCTYPE html>
+
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="style.css">
-        <script src="options.js"></script>
     </head>
-    <body>
-        <!-- <label class="switch">
-                <input class="switch-input" type="checkbox"><input>
-                <span class="switch-label" data-current="Today" data-week="This Week" ><input>
-                <span class="switch-handle"></span>
-        </label> -->
-        <p class="switch">
-                <input id="toggle" type="checkbox"><input>
-                <label id="label" for="toggle">
-                    <span id="switch"></span>
-                </label>
-        </p>
+    <body class="large-container">
+        <label class="container">
+            <div>°F &nbsp &nbsp &nbsp °C</div>
+            <input id ="tempChoose" type="checkbox" name="" value="units" />
+            <span class="button-label"></span>
+        </label>
+        <button id="save">Save</button>
     </body>
+    <script src="options.js"></script>
 </html>
