@@ -26,10 +26,10 @@ let icons = {
 	'snow-night': './img/snowy-6.svg'
 };
 
-let unit;
+let unitTemp;
 
 chrome.storage.local.get('units', function(data) {
-	unit = data.units;
+	unitTemp = data.units;
 });
 
 let latitude;
@@ -51,7 +51,10 @@ if (navigator.geolocation) {
 			.then((data) => {
 				let currentDay = new Date(data.currently.time * 1000);
 				document.getElementById('date').innerText = currentDay.toString().slice(0, 10);
-				document.getElementById('temperature').innerText = Math.round(data.currently.temperature);
+				document.getElementById('temperature').innerText = `${convertTemp(
+					unitTemp,
+					data.currently.temperature
+				)}`;
 
 				let pic = data.currently.icon;
 
@@ -67,24 +70,21 @@ if (navigator.geolocation) {
 					document.getElementById(`day${i}`).innerText = dayW;
 					for (let j = 0; j < days.length; j++) {
 						if (days[j].includes(dayW)) {
-							document.getElementById(`tempHi${i}`).innerText = `${Math.round(
+							document.getElementById(`tempHi${i}`).innerText = `${convertTemp(
+								unitTemp,
 								week[i].temperatureHigh
-							)} °F`;
-							document.getElementById(`tempLow${i}`).innerText = `${Math.round(
+							)}`;
+							document.getElementById(`tempLow${i}`).innerText = `${convertTemp(
+								unitTemp,
 								week[i].temperatureLow
-							)} °F`;
+							)}`;
 							document.getElementById(`weatherImage${i}`).src = iconSelect(week[i].icon);
 						}
 					}
 				}
 				//Check for time of day to grab day/night icons
 				if (Number(new Date(data.currently.time * 1000).toString().slice(16, 18)) < 19) {
-					if (unit === true) {
-						console.log('the unit', unit);
-						document.getElementById('weatherImage').src = './img/snowy-6.svg';
-					}
 					document.getElementById('weatherImage').src = iconSelect(pic);
-					//document.getElementById('weatherImage').src = './img/snowy-6.svg';
 				} else {
 					switch (pic) {
 						case 'partly-cloudy-night':
@@ -132,6 +132,13 @@ if (navigator.geolocation) {
 
 				default:
 					return icons['clear-day'];
+			}
+		}
+		function convertTemp(units, fahrTemp) {
+			if (units === false) {
+				return `${Math.round(fahrTemp)} °F`;
+			} else {
+				return `${Math.round((fahrTemp - 32) * (5 / 9))} °C`;
 			}
 		}
 	});
