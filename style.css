@@ -2,6 +2,11 @@ body {
 	text-align: center;
 }
 
+#weather-body {
+	border-radius: 3px;
+	color: white;
+}
+
 .large-container {
 	margin: 0;
 	padding: 0;

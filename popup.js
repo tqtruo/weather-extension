@@ -59,7 +59,7 @@ if (navigator.geolocation) {
 				let pic = data.currently.icon;
 
 				let week = data.daily.data; //array of days + data
-
+				console.log(week);
 				// let offset = days.findIndex((day) => {
 				// 	return day.includes(currentDay.toString().slice(0, 3));
 				// });
@@ -83,9 +83,14 @@ if (navigator.geolocation) {
 					}
 				}
 				//Check for time of day to grab day/night icons
-				if (Number(new Date(data.currently.time * 1000).toString().slice(16, 18)) < 19) {
+				let currentTime = Number(new Date(data.currently.time * 1000).toString().slice(16, 18));
+				let sunrise = Number(new Date(week[0].sunriseTime * 1000).toString().slice(16, 18));
+				let sunset = Number(new Date(week[0].sunsetTime * 1000).toString().slice(16, 18));
+				if (currentTime < sunset && currentTime > sunrise) {
 					document.getElementById('weatherImage').src = iconSelect(pic);
+					document.getElementById('weather-body').style.backgroundImage = "url('./img/sky.jpg')";
 				} else {
+					document.getElementById('weather-body').style.backgroundImage = "url('./img/night-sky.jpg')";
 					switch (pic) {
 						case 'partly-cloudy-night':
 							document.getElementById('weatherImage').src = icons['partly-cloudy-night'];
