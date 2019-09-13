@@ -72,7 +72,6 @@ if (navigator.geolocation) {
 					} else {
 						document.getElementById(`day${i}`).innerText = dayW;
 					}
-					//document.getElementById(`day${i}`).innerText = dayW;
 					for (let j = 0; j < days.length; j++) {
 						if (days[j].includes(dayW)) {
 							document.getElementById(`tempHi${i}`).innerText = `${convertTemp(
