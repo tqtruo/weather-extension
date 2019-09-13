@@ -67,7 +67,12 @@ if (navigator.geolocation) {
 				for (let i = 0; i < week.length - 1; i++) {
 					let dayW = new Date(week[i].time * 1000);
 					dayW = dayW.toString().slice(0, 3);
-					document.getElementById(`day${i}`).innerText = dayW;
+					if (i === 0) {
+						document.getElementById(`day${i}`).innerText = 'Today';
+					} else {
+						document.getElementById(`day${i}`).innerText = dayW;
+					}
+					//document.getElementById(`day${i}`).innerText = dayW;
 					for (let j = 0; j < days.length; j++) {
 						if (days[j].includes(dayW)) {
 							document.getElementById(`tempHi${i}`).innerText = `${convertTemp(
