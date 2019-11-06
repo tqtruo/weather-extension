@@ -1,4 +1,4 @@
-# weather-extension
+# Weather Forecaster
 * A chrome extension for viewing the current and weekly weather forecast in your area. It'll show the weather condition
 as well as the high and low temperatures for the day. This can be changed to be in Fahrenheit or Celsius in the settings.
 
